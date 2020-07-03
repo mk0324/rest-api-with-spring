@@ -44,8 +44,9 @@ public class EventController {
         }
 
         Event event = modelMapper.map(eventDto, Event.class);
+        event.update(); // domain 객체에서 Service 로직 처리중
         Event newEvent = eventRepository.save(event);
-        URI createdUri = linkTo(EventController.class).slash("{id}").toUri();
+        URI createdUri = linkTo(EventController.class).slash(newEvent.getId()).toUri();
         newEvent.setId(10);
         return ResponseEntity.created(createdUri).body(newEvent);
     }
